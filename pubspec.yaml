@@ -24,6 +24,7 @@ dependencies:
   wave_linear_progress_indicator: ^0.1.0
   percent_indicator: ^4.2.3
   step_progress_indicator: ^1.0.2
+  easy_stepper: ^0.6.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

@@ -4,6 +4,7 @@ import 'package:bekushal/Components/Buttons.dart';
 import 'package:bekushal/constants/quizMap.dart';
 import 'package:bekushal/pages/OtherScreens/QuizCompletedScreen.dart';
 import 'package:bekushal/utils/quizModel.dart';
+import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -500,30 +501,100 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
           )
               : Drawer(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              child: Column(
-                children: [
-                  DrawerHeader(
-                    child: Text(
-                      "Track Your Progress - $level",
-                      style: GoogleFonts.inter(
-                        color: disabledBorderColor.withOpacity(0.5),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+            child: SizedBox(
+                    height: height,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text(
+                              "Track Your Progress - $level",
+                              style: GoogleFonts.inter(
+                                color: disabledBorderColor.withOpacity(0.5),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          EasyStepper(
+                            activeStep: level,
+                            direction: Axis.vertical,
+                            internalPadding: 10,
+                            padding: const EdgeInsetsDirectional.symmetric(horizontal: 30, vertical: 20),
+                            stepRadius: 75,
+                            finishedStepTextColor: Colors.blue,
+                            activeStepBorderColor: Colors.blue,
+                            activeStepBackgroundColor: Colors.grey,
+                            activeLineColor: Colors.blue,
+                            defaultLineColor: Colors.blue,
+                            finishedStepBackgroundColor: Colors.blue,
+                            showLoadingAnimation: false,
+                            // showScrollbar: false,
+
+                            steps: [
+                              EasyStep(
+                                customStep: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Opacity(
+                                    opacity: 1,
+                                    child: Image.asset(
+                                        'assets/images/medal-1.png'),
+                                  ),
+                                ),
+                                customTitle: Text(
+                                  'Beginner Level',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              EasyStep(
+                                customStep: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Opacity(
+                                    opacity: 1,
+                                    child: Image.asset(
+                                        'assets/images/medal-2.png'),
+                                  ),
+                                ),
+                                customTitle: Text(
+                                  'Intermediate Level',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              EasyStep(
+                                customStep: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Opacity(
+                                    opacity: 1,
+                                    child: Image.asset(
+                                        'assets/images/medal-3.png'),
+                                  ),
+                                ),
+                                customTitle: Text(
+                                  'Expert Level',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            // onStepReached: (index) =>
+                            //     setState(() => level = index),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Column(
-
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
           ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(25, 5, 25, 20),

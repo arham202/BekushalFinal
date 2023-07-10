@@ -22,7 +22,7 @@ class achievementsDailyStreak extends StatelessWidget {
                   height: 130,
                   width: 120,
                   child: Image.asset(
-              'assets/images/Achievements.jpeg',
+              'assets/images/image 14.png',
               fit: BoxFit.fill,
             ))),
             SizedBox(height: 10,),
@@ -55,7 +55,7 @@ class achievementsAttemps extends StatelessWidget {
                   height: 130,
                   width: 120,
                   child: Image.asset(
-              'assets/images/Achievements.jpeg',
+              'assets/images/image 14.png',
               fit: BoxFit.fill,
             ))),
             SizedBox(height: 10,),
