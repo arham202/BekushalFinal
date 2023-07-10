@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'OnboardingScreens/UserForm.dart';
 
-
+double finalmarks = 0;
 class QuizScreen extends StatefulWidget {
   static String id = "QuizScreen";
   String? quizCode;
@@ -141,7 +141,9 @@ class _QuizScreenState extends State<QuizScreen> {
         level: level,
         marksCounter: marksCounter,
         prevMarks: prevMarksCounter,
-        attemptedQuestions: attemptedQuestions
+        attemptedQuestions: attemptedQuestions,
+        finalScore: finalScore
+        
     );
     allQuizData.add(newData);
     print("**********************#########################***********************");
@@ -212,9 +214,9 @@ class _QuizScreenState extends State<QuizScreen> {
         });
         prevMarksCounter.addAll(marksCounter);
         marksCounter = [];
-        print("*****");
+        print("************************************************");
         print(level);
-        print("*****");
+        print("************************************************");
         _scaffoldKey.currentState?.openEndDrawer();
       }
     }
