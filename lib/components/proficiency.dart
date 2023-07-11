@@ -8,8 +8,8 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class MyWidget extends StatelessWidget {
   String? text;
-  double finalScore;
-  MyWidget({super.key, required this.text, required this.finalScore});
+  int level;
+  MyWidget({super.key, required this.text, required this.level});
 
   bool medal1 = false;
   bool medal2 = false;
@@ -22,12 +22,12 @@ class MyWidget extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    if (finalScore.truncate() == 0) {
+    if (level.truncate() == 0) {
       currentLevel = levels[0];
-    } else if (finalScore.truncate() > 0 && finalScore.truncate() <= 33) {
+    } else if (level.truncate() == 1) {
       currentLevel = levels[1];
       medal1 = true;
-    } else if (finalScore.truncate() > 33 && finalScore.truncate() <= 66) {
+    } else if (level.truncate() == 2) {
       currentLevel = levels[2];
       medal1 = medal2 = true;
     } else {
@@ -36,7 +36,7 @@ class MyWidget extends StatelessWidget {
     }
 
     return Container(
-      height: 160,
+      height: 140,
       child: Card(
         color: (Theme.of(context).colorScheme.secondary == Colors.black) ? Colors.white : Color(0xff212121),
         elevation: 0,
@@ -108,18 +108,18 @@ class MyWidget extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: 10,),
-              LinearPercentIndicator(
-              // width: MediaQuery.of(context).size.width - 50,
-              animation: true,
-              lineHeight: 20.0,
-              animationDuration: 1000,
-              percent: (finalScore.truncate() / 100),
-              center: Text("${finalScore.truncate()}%"),
-              barRadius: Radius.circular(10),
-              backgroundColor: Colors.blue[100],
-              progressColor: Theme.of(context).colorScheme.tertiary,
-            ),
+              // SizedBox(height: 10,),
+            //   LinearPercentIndicator(
+            //   // width: MediaQuery.of(context).size.width - 50,
+            //   animation: true,
+            //   lineHeight: 20.0,
+            //   animationDuration: 1000,
+            //   percent: (finalScore.truncate() / 100),
+            //   center: Text("${finalScore.truncate()}%"),
+            //   barRadius: Radius.circular(10),
+            //   backgroundColor: Colors.blue[100],
+            //   progressColor: Theme.of(context).colorScheme.tertiary,
+            // ),
             ],),
         ),
       ),

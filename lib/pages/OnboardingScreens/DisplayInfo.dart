@@ -28,7 +28,7 @@ class _DisplayInfoState extends State<DisplayInfo> {
   late String _profilePicturePath;
   late String _name = '';
   late String _email = '';
-  bool isCourseSelected = false;
+  // bool isCourseSelected = false;
   late int streak;
   late int attempted;
 
@@ -44,8 +44,8 @@ class _DisplayInfoState extends State<DisplayInfo> {
     _profilePicturePath = prefs.getString('profilePicturePath') ?? '';
     _name = prefs.getString('name') ?? '';
     _email = prefs.getString('email') ?? '';
-    streak = (prefs.getString('streak') ?? '') as int;
-    attempted = (prefs.getString('attempted') ?? '') as int;
+    streak = (prefs.getInt('streak') ?? 0);
+    attempted = (prefs.getInt('attempted') ?? 0);
 
     context.read<UserProvider>().setName(_name);
     context.read<UserProvider>().setEmail(_email);
@@ -170,48 +170,12 @@ class _DisplayInfoState extends State<DisplayInfo> {
               const SizedBox(height: 16.0),
 
               // MyCourses and Achievements
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
+              Column(
                     children: [
                       TextButton(
                           onPressed: () {
                             setState(() {
-                              isCourseSelected = true;
-                            });
-                          },
-                          child: Text(
-                            'My Courses',
-                            style: GoogleFonts.inter(
-                                textStyle: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: isCourseSelected
-                                  ? Theme.of(context).colorScheme.secondary
-                                  : Color(0xff818181),
-                            )),
-                          )),
-                      Visibility(
-                        visible: isCourseSelected,
-                        child: Container(
-                          width: 120,
-                          child: Divider(
-                            thickness: 3,
-                            indent: 2,
-                            height: 0,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              isCourseSelected = false;
+                              // isCourseSelected = false;
                             });
                           },
                           child: Text(
@@ -220,189 +184,137 @@ class _DisplayInfoState extends State<DisplayInfo> {
                                 textStyle: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
-                              color: !isCourseSelected
-                                  ? Theme.of(context).colorScheme.secondary
-                                  : Color(0xff818181),
-                            )),
-                          )),
-                      Visibility(
-                        visible: !isCourseSelected,
-                        child: Container(
-                            width: 140,
-                            child: Divider(
-                              thickness: 3,
-                              indent: 2,
-                              height: 0,
                               color: Theme.of(context).colorScheme.secondary,
                             )),
-                      )
+                          )),
+                      Container(
+                          width: 140,
+                          child: Divider(
+                            thickness: 3,
+                            indent: 2,
+                            height: 0,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ))
                     ],
-                  )
-                ],
-              ),
+                  ),
 
               // My Courses
-              Visibility(
-                visible: isCourseSelected,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      DropdownButtonWidget(
-                        items: [
-                          "All Courses",
-                          "Machine Learning",
-                          "Artificial Intelligence"
-                        ],
-                        onChanged: onDropdownValueChanged,
-                      ),
-
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      MyWidget(text: 'Pandas & Numpy', finalScore: finalmarks),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      MyWidget(
-                          text: 'Logical Programming', finalScore: finalmarks),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      MyWidget(
-                          text: 'Unsupervised Learning Basics',
-                          finalScore: finalmarks),
-                      // attempts(context, 'Pandas & Numpy'),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            
 
               // Achievements
-              Visibility(
-                visible: !isCourseSelected,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                        width: double.infinity,
-                      ),
-                      Text(
-                        'Daily Streak',
-                        style: GoogleFonts.inter(
-                            textStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        )),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 10,
+                      width: double.infinity,
+                    ),
+                    Text(
+                      'Daily Streak',
+                      style: GoogleFonts.inter(
+                          textStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      )),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
 
-                      SizedBox(
-                          height: 200,
-                          child: Consumer<UserProvider>(
-                              builder: (context, userProvider, _) {
-                            if (userProvider.streak == null ||
-                                userProvider.streak! < 7) {
-                              return Text('No Achievements Yet');
-                            } else if (userProvider.streak! >= 7 &&
-                                userProvider.streak! <= 35) {
-                              return SizedBox(
-                                height: 200,
-                                child: ListView.builder(
-                                    physics: const ClampingScrollPhysics(),
-                                    // shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        (userProvider.streak! / 7).truncate(),
-                                    itemBuilder: (context, index) {
-                                      return achievementsDailyStreak(
-                                          streak: (index + 1) * 7);
-                                    }),
-                              );
-                            } else {
-                              return SizedBox(
-                                height: 200,
-                                child: ListView.builder(
-                                    physics: const ClampingScrollPhysics(),
-                                    // shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 5,
-                                    itemBuilder: (context, index) {
-                                      return achievementsDailyStreak(
-                                          streak: (index + 1) * 7);
-                                    }),
-                              );
-                            }
-                          })),
+                    SizedBox(
+                        height: 200,
+                        child: Consumer<UserProvider>(
+                            builder: (context, userProvider, _) {
+                          if (userProvider.streak == null ||
+                              userProvider.streak! < 7) {
+                            return Text('No Achievements Yet');
+                          } else if (userProvider.streak! >= 7 &&
+                              userProvider.streak! <= 35) {
+                            return SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  // shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                      (userProvider.streak! / 7).truncate(),
+                                  itemBuilder: (context, index) {
+                                    return achievementsDailyStreak(
+                                        streak: (index + 1) * 7);
+                                  }),
+                            );
+                          } else {
+                            return SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  // shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 5,
+                                  itemBuilder: (context, index) {
+                                    return achievementsDailyStreak(
+                                        streak: (index + 1) * 7);
+                                  }),
+                            );
+                          }
+                        })),
 
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        'Attemps',
-                        style: GoogleFonts.inter(
-                            textStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        )),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      
-                      SizedBox(
-                          height: 200,
-                          child: Consumer<UserProvider>(
-                              builder: (context, userProvider, _) {
-                            if (userProvider.attempted == null ||
-                                userProvider.attempted! < 50) {
-                              return Text('No Achievements Yet');
-                            } else if (userProvider.attempted! >= 50 &&
-                                userProvider.attempted! <= 250) {
-                              return SizedBox(
-                                height: 200,
-                                child: ListView.builder(
-                                    physics: const ClampingScrollPhysics(),
-                                    // shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        (userProvider.attempted! / 50).truncate(),
-                                    itemBuilder: (context, index) {
-                                      return achievementsAttemps(
-                                          attempted: (index + 1) * 50);
-                                    }),
-                              );
-                            } else {
-                              return SizedBox(
-                                height: 200,
-                                child: ListView.builder(
-                                    physics: const ClampingScrollPhysics(),
-                                    // shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 5,
-                                    itemBuilder: (context, index) {
-                                      return achievementsAttemps(
-                                          attempted: (index + 1) * 50);
-                                    }),
-                              );
-                            }
-                          })),
-                      // achievementsDailyattempted(),
-                    ],
-                  ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Attemps',
+                      style: GoogleFonts.inter(
+                          textStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      )),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    
+                    SizedBox(
+                        height: 200,
+                        child: Consumer<UserProvider>(
+                            builder: (context, userProvider, _) {
+                          if (userProvider.attempted == null ||
+                              userProvider.attempted! < 50) {
+                            return Text('No Achievements Yet');
+                          } else if (userProvider.attempted! >= 50 &&
+                              userProvider.attempted! <= 250) {
+                            return SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  // shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                      (userProvider.attempted! / 50).truncate(),
+                                  itemBuilder: (context, index) {
+                                    return achievementsAttemps(
+                                        attempted: (index + 1) * 50);
+                                  }),
+                            );
+                          } else {
+                            return SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  // shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 5,
+                                  itemBuilder: (context, index) {
+                                    return achievementsAttemps(
+                                        attempted: (index + 1) * 50);
+                                  }),
+                            );
+                          }
+                        })),
+                    // achievementsDailyattempted(),
+                  ],
                 ),
               ),
             ],

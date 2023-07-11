@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'OnboardingScreens/UserForm.dart';
 
-double finalmarks = 0;
+int finalmarks = 0;
 class QuizScreen extends StatefulWidget {
   static String id = "QuizScreen";
   String? quizCode;
@@ -37,7 +37,7 @@ class _QuizScreenState extends State<QuizScreen> {
   List<int> prevMarksCounter = [];
   List<QuizData> allQuizData = [];
   QuizData? currQuiz;
-  late double finalScore;
+  late double finalScore = 0;
   int level = 0;
   List<String> levels = ["Beginner Level", "Intermediate Level", "Expert Level"];
   int level_Length = 3;
